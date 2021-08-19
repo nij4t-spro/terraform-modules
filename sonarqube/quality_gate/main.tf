@@ -12,15 +12,21 @@ variable "conditions" {
   description = "Map of metrics and a tupple of condition operator and value"
 }
 
+variable "name" {
+  type = string
+  description = "Quality Gate name"
+}
+
 locals {
   # Map of metrics and a tupple of condition operator and value
   quality_gate_map = var.conditions
   # Bake a list of metrics
   metrics = keys(local.quality_gate_map)
+  name    = var.name
 }
 
 resource "sonarqube_qualitygate" "main" {
-  name = "Common"
+  name = local.name
 }
 
 resource "sonarqube_qualitygate_condition" "default" {

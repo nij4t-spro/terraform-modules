@@ -5,9 +5,13 @@ locals {
 module "sonar_quality_gate" {
   source = "../../sonarqube/quality_gate"
 
+  name = "Common"
+
   conditions = {
     coverage = [ "LT", 80 ]
     sqale_rating = [ "GT", local.Rating.B ]
-    security_rating = ["GT", local.Rating.B ]
+    security_rating = ["GT", local.Rating.A ]
+    reliability_rating = ["GT", local.Rating.A ]
+    duplicated_lines_density = [ "GT", 1 ]
   }
 }
