@@ -1,9 +1,11 @@
 locals {
-  cluster_name = var.cluster_name
-  region       = var.region
-  namespace    = var.namespace
-  domain       = var.domain
-  services     = var.services
+  cluster_name        = var.cluster_name
+  region              = var.region
+  namespace           = var.namespace
+  domain              = var.domain
+  services            = var.services
+  repository_username = var.repository_username
+  repository_password = var.repository_password
 }
 
 provider "aws" {
@@ -48,9 +50,12 @@ resource "helm_release" "service" {
   chart      = local.services[count.index].chart
   version    = local.services[count.index].version
 
+  repository_username = local.repository_username
+  repository_password = local.repository_password
+
   # values = lookup(local.services[count.index], "values", [])
   set {
-    name = "image.tag"
+    name  = "image.tag"
     value = local.services[count.index].imageTag != "" ? local.services[count.index].imageTag : "dev"
   }
 }

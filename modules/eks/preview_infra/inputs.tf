@@ -21,3 +21,5 @@ variable "namespace" {
   description = "hostname complient"
 }
 
+variable "repository_username" { default = "" }
+variable "repository_password" { default = "" }
